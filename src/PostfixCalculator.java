@@ -68,7 +68,12 @@ public class PostfixCalculator {
             }
         }
 
-        return 0;
+        if (stack.size() != 1) {
+            System.out.println("Error: Invalid postfix expression (too many operands)");
+            return Integer.MIN_VALUE;
+        }
+
+        return stack.pop();
     }
 
     public static void main(String[] args) {
