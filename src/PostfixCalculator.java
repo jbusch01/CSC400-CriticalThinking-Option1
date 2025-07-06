@@ -3,15 +3,12 @@ import java.util.Stack;
 public class PostfixCalculator {
 
     public int evaluatePostfix(String postfixExpression) {
-        // To be implemented in next step
         Stack<Integer> stack = new Stack<>();
 
         if (postfixExpression == null || postfixExpression.isEmpty()) {
             System.out.println("Error: Empty expression");
             return Integer.MIN_VALUE;
         }
-
-        StringBuilder number = new StringBuilder();
 
         for (int i = 0; i < postfixExpression.length(); i++) {
             char ch = postfixExpression.charAt(i);
@@ -21,11 +18,8 @@ public class PostfixCalculator {
             }
 
             if (Character.isDigit(ch)) {
-                number.append(ch);
-                if (i == postfixExpression.length() - 1 || !Character.isDigit(postfixExpression.charAt(i + 1))) {
-                    stack.push(Integer.parseInt(number.toString()));
-                    number.setLength(0);
-                }
+                stack.push(Character.getNumericValue(ch));
+
             }
 
             else if ("+-*/%".indexOf(ch) != -1) {
@@ -39,15 +33,9 @@ public class PostfixCalculator {
                 int result = 0;
 
                 switch (ch) {
-                    case '+':
-                        result = a + b;
-                        break;
-                    case '-':
-                        result = a - b;
-                        break;
-                    case '*':
-                        result = a * b;
-                        break;
+                    case '+': result = a + b; break;
+                    case '-': result = a - b; break;
+                    case '*': result = a * b; break;
                     case '/':
                         if (b == 0) {
                             System.out.println("Error: Division by zero");
@@ -66,6 +54,11 @@ public class PostfixCalculator {
 
                 stack.push(result);
             }
+
+            else {
+                System.out.println("Error: unknown character '" + ch + "'");
+                return Integer.MIN_VALUE;
+            }
         }
 
         if (stack.size() != 1) {
@@ -80,12 +73,21 @@ public class PostfixCalculator {
         PostfixCalculator calculator = new PostfixCalculator();
 
         String expression1 = "42*3+";
-        System.out.println("Result 1: " + calculator.evaluatePostfix(expression1));
+        int result1 = calculator.evaluatePostfix(expression1);
+        if (result1 != Integer.MIN_VALUE) {
+            System.out.println("Result 1: " + result1);
+        }
         
         String expression2 = "53+7*";
-        System.out.println("Result 2: " + calculator.evaluatePostfix(expression2));
+        int result2 = calculator.evaluatePostfix(expression2);
+        if (result2 != Integer.MIN_VALUE) {
+            System.out.println("Result 2: " + result2);
+        }
 
         String expression3 = "42*+";
-        System.out.println("Result 3: " + calculator.evaluatePostfix(expression3));;
+        int result3 = calculator.evaluatePostfix(expression3);
+        if (result3 != Integer.MIN_VALUE) {
+            System.out.println("Result 3: " + result3);
+        }
     }
 }
