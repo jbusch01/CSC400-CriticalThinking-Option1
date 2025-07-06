@@ -1,4 +1,7 @@
 import java.util.Stack;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class PostfixCalculator {
 
@@ -88,6 +91,25 @@ public class PostfixCalculator {
         int result3 = calculator.evaluatePostfix(expression3);
         if (result3 != Integer.MIN_VALUE) {
             System.out.println("Result 3: " + result3);
+        }
+
+        System.out.println("\nEvaluating from file:");
+        calculator.evaluateFromFile("expressions.txt");
+    }
+
+    public void evaluateFromFile(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            int lineNumber = 1;
+            while ((line = reader.readLine()) != null) {
+                int result = evaluatePostfix(line);
+                if (result != Integer.MIN_VALUE) {
+                    System.out.println("Line " + lineNumber + ": " + line + " = " + result);
+                }
+                lineNumber++;
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
         }
     }
 }
